@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="uz-Cyrl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>Туғилган кунингиз муборак!</title>
+<meta name="theme-color" content="#fff0e0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Lobster&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #e0a526;
+    --gold-soft: #f6d27a;
+    --rose: #e1507a;
+    --rose-deep: #b8335a;
+    --plum: #4b2447;
+    --cream: #fff6e8;
+    --display: "Lobster", "Georgia", "Times New Roman", serif;
+    --hand: "Caveat", "Segoe Script", "Comic Sans MS", cursive;
+  }
+  * { box-sizing: border-box; }
+  html { height: 100%; }
+  body {
+    margin: 0; min-height: 100%; overflow-x: hidden;
+    font-family: var(--hand); font-weight: 500; color: var(--plum);
+    background:
+      radial-gradient(55rem 38rem at 10% 6%, #ffd9e4 0, transparent 60%),
+      radial-gradient(50rem 40rem at 95% 20%, #ffeab8 0, transparent 58%),
+      radial-gradient(60rem 50rem at 50% 105%, #ffd6c2 0, transparent 62%),
+      #fff4e6;
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+  }
+  [hidden] { display: none !important; }
+  :focus-visible { outline: 3px solid var(--rose); outline-offset: 4px; }
+  button { font-family: inherit; }
+
+  /* ---------- Фон ---------- */
+  .bg-p {
+    position: fixed; bottom: -8vh; left: var(--l); z-index: 0; pointer-events: none;
+    color: var(--c); font-size: var(--s); opacity: var(--o); line-height: 1;
+    animation: floatUp var(--d) linear var(--dl) infinite;
+  }
+  @keyframes floatUp { from { transform: translate3d(0, 0, 0) rotate(-12deg); } to { transform: translate3d(var(--x), -118vh, 0) rotate(12deg); } }
+
+  #sky { position: fixed; inset: 0; z-index: 1; opacity: 0; transition: opacity 1.6s ease; pointer-events: none;
+    background: linear-gradient(180deg, #140b30 0%, #2b1253 55%, #6e2b5c 100%); }
+  body.night #sky { opacity: 1; }
+  .star { position: absolute; width: var(--s); height: var(--s); border-radius: 50%; background: #fff; opacity: var(--o); animation: twinkle var(--d) ease-in-out var(--dl) infinite; }
+  @keyframes twinkle { 50% { opacity: .15; } }
+
+  main { position: relative; z-index: 3; min-height: 100vh; min-height: 100svh; display: grid; place-items: center; padding: 1.25rem; }
+  .scene { width: 100%; display: grid; place-items: center; justify-items: center; gap: 1.4rem; padding: 3.6rem 0 2rem; }
+  .scene.enter { animation: sceneIn .8s cubic-bezier(.2, .8, .2, 1) both; }
+  .scene.leave { animation: sceneOut .45s ease forwards; }
+  @keyframes sceneIn { from { opacity: 0; transform: translateY(18px) scale(.97); } }
+  @keyframes sceneOut { to { opacity: 0; transform: translateY(-12px) scale(.98); } }
+
+  .progress { position: fixed; top: calc(env(safe-area-inset-top, 0px) + 1rem); left: 0; right: 0; z-index: 5; display: flex; justify-content: center; gap: .55rem; pointer-events: none; }
+  .progress span { color: var(--gold); opacity: .3; font-size: .95rem; transition: opacity .4s ease, transform .4s ease; }
+  .progress span.on { opacity: 1; transform: scale(1.4); }
+
+  .title { font-family: var(--display); font-weight: 400; font-size: clamp(2rem, 8.5vw, 2.7rem); line-height: 1.2; margin: 0; text-align: center; color: var(--rose-deep); text-shadow: 0 0 14px rgba(255, 255, 255, .8); }
+  .sub { margin: 0; font-size: 1.5rem; opacity: .8; text-align: center; }
+  body.night .title { color: #ffe9b8; text-shadow: 0 0 18px rgba(255, 190, 90, .55); }
+  body.night .sub { color: #f4dcc0; }
+
+  .w { display: inline-block; opacity: 0; animation: ink .8s ease forwards; }
+  @keyframes ink { from { opacity: 0; filter: blur(5px); transform: translateY(5px); } to { opacity: 1; filter: none; transform: none; } }
+
+  /* ---------- Окошко-карточка ---------- */
+  .card {
+    position: relative; width: min(100%, 29rem); text-align: center;
+    padding: clamp(2.2rem, 8vw, 3rem) clamp(1.4rem, 6vw, 2.4rem) clamp(1.8rem, 6vw, 2.4rem);
+    border-radius: 30px; border: 1.5px solid rgba(255, 255, 255, .95);
+    background: linear-gradient(180deg, rgba(255, 255, 255, .9), rgba(255, 255, 255, .62));
+    backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2);
+    box-shadow: 0 30px 70px -22px rgba(224, 120, 60, .45), 0 0 0 7px rgba(255, 255, 255, .4);
+  }
+  .card::before {
+    content: "★"; position: absolute; top: -1.25rem; left: 50%; transform: translateX(-50%);
+    width: 2.5rem; height: 2.5rem; border-radius: 50%; display: grid; place-items: center;
+    background: radial-gradient(circle at 35% 30%, #ffd86b, #d99a1c); color: #fff; font-size: 1.1rem;
+    box-shadow: 0 8px 18px rgba(217, 154, 28, .5);
+  }
+  .t { font-size: clamp(1.55rem, 6.4vw, 1.85rem); line-height: 1.4; margin: 0 0 .8em; font-weight: 600; }
+  .t.hello { font-family: var(--display); font-weight: 400; font-size: clamp(2rem, 9vw, 2.6rem); color: var(--rose-deep); margin-bottom: .4em; }
+  .sign { font-size: 2rem; text-align: right; margin: .2rem 0 0; color: var(--rose-deep); font-weight: 600; }
+
+  /* ---------- Кнопка «Кейинги» ---------- */
+  .actions { margin-top: 1.4rem; min-height: 3.6rem; display: flex; justify-content: center; }
+  .next {
+    position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: .8rem;
+    padding: .5rem .5rem .5rem 1.7rem; border: 0; border-radius: 999px; cursor: pointer;
+    background: linear-gradient(135deg, #f2b53a, #dc8a14); color: #fff;
+    font-size: 1.7rem; font-weight: 600; line-height: 1; text-shadow: 0 1px 2px rgba(120, 70, 0, .3);
+    box-shadow: 0 14px 28px -8px rgba(217, 140, 20, .75);
+    opacity: 0; transform: translateY(10px); pointer-events: none;
+    transition: opacity .8s ease, transform .8s ease;
+  }
+  .next.show { opacity: 1; transform: none; pointer-events: auto; animation: glow 2.6s ease-in-out 1s infinite; }
+  .next.show:hover { transform: translateY(-2px); }
+  .next .go { width: 2.7rem; height: 2.7rem; border-radius: 50%; background: #fff; color: var(--rose); display: grid; place-items: center; font-size: 1.25rem; animation: beat 1.6s ease-in-out infinite; text-shadow: none; }
+  .next::after { content: ""; position: absolute; top: 0; bottom: 0; width: 40%; left: -60%; background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .6), transparent); transform: skewX(-20deg); animation: shine 3.4s ease-in-out 1.4s infinite; }
+  @keyframes glow { 50% { box-shadow: 0 14px 38px -4px rgba(217, 140, 20, 1); } }
+  @keyframes beat { 50% { transform: scale(1.14); } }
+  @keyframes shine { 0%, 55% { left: -60%; } 100% { left: 130%; } }
+
+  /* ---------- 1. Подарочная коробка ---------- */
+  .gift { position: relative; width: min(62vw, 230px); height: min(62vw, 230px); padding: 0; border: 0; background: none; cursor: pointer; animation: wobble 3.2s ease-in-out infinite; margin-top: 1rem; }
+  .gift.open { animation: none; cursor: default; }
+  @keyframes wobble { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg) translateY(-6px); } }
+  .g-box { position: absolute; left: 8%; right: 8%; bottom: 0; height: 62%; border-radius: 6px 6px 16px 16px; background: linear-gradient(180deg, #f0668c, #d3406a); box-shadow: 0 20px 30px -10px rgba(180, 50, 90, .5); }
+  .g-box::before, .g-lid::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 20%; transform: translateX(-50%); background: linear-gradient(90deg, #f6c453, #e0a526, #f6c453); }
+  .g-lid { position: absolute; left: 2%; right: 2%; bottom: 60%; height: 24%; z-index: 2; border-radius: 10px; background: linear-gradient(180deg, #f57a9d, #e1507a); transform-origin: left bottom; transition: transform .9s cubic-bezier(.3, 1.4, .5, 1), opacity .6s ease .3s; box-shadow: 0 6px 10px rgba(0, 0, 0, .12); }
+  .g-bow { position: absolute; left: 50%; top: -2.3rem; z-index: 3; transform: translateX(-50%); font-size: 3.4rem; line-height: 1; filter: drop-shadow(0 4px 4px rgba(0, 0, 0, .15)); }
+  .g-glow { position: absolute; left: 6%; right: 6%; bottom: 40%; height: 60%; border-radius: 50%; background: radial-gradient(circle, rgba(255, 233, 140, .95), rgba(255, 233, 140, 0) 68%); opacity: 0; transition: opacity .8s ease .3s; }
+  .gift.open .g-lid { transform: translateY(-90%) rotate(-26deg); opacity: 0; }
+  .gift.open .g-bow { transform: translate(-50%, -190%) rotate(-30deg); opacity: 0; transition: transform .9s ease, opacity .6s ease .3s; }
+  .gift.open .g-glow { opacity: 1; }
+
+  /* ---------- 3. Слайдшоу ---------- */
+  .polaroid { width: min(100%, 21rem); margin: 0 auto; padding: .7rem .7rem 0; background: #fff; border-radius: 3px; box-shadow: 0 12px 34px rgba(160, 90, 30, .28); transform: rotate(-1.4deg); }
+  .frame { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: linear-gradient(160deg, #ffe0ea, #ffeab8); touch-action: pan-y; user-select: none; }
+  .frame .slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .8s ease; pointer-events: none; -webkit-user-drag: none; display: grid; place-items: center; }
+  .frame .slide.on { opacity: 1; }
+  .frame .ph { font-size: 4.5rem; color: #fff; text-shadow: 0 4px 14px rgba(225, 80, 122, .5); }
+  .cap { font-size: 1.7rem; line-height: 1.15; text-align: center; margin: 0; padding: .55rem .3rem .8rem; min-height: 3.6rem; font-weight: 600; }
+  .gnav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1.1rem; }
+  .arrow { width: 2.7rem; height: 2.7rem; border-radius: 50%; border: 2px solid var(--gold); background: rgba(255, 255, 255, .7); color: #b07a0c; font-size: 1.7rem; line-height: 1; cursor: pointer; padding: 0 0 .2rem; }
+  .dots { display: flex; gap: .55rem; align-items: center; }
+  .dot { width: .7rem; height: .7rem; padding: 0; border: 0; border-radius: 50%; background: var(--gold-soft); cursor: pointer; }
+  .dot.on { background: var(--rose); }
+
+  /* ---------- 4. Карточки-причины ---------- */
+  .flips { display: grid; grid-template-columns: repeat(2, 1fr); gap: .9rem; width: min(100%, 27rem); perspective: 1000px; }
+  .flip { position: relative; min-height: 9.5rem; padding: 0; border: 0; background: none; cursor: pointer; }
+  .flip .inner { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform .7s cubic-bezier(.3, 1.2, .5, 1); }
+  .flip.on .inner { transform: rotateY(180deg); }
+  .face { position: absolute; inset: 0; display: grid; place-items: center; padding: .8rem; border-radius: 18px; backface-visibility: hidden; -webkit-backface-visibility: hidden; text-align: center; }
+  .face.front { background: linear-gradient(145deg, #ff8fb0, #e1507a); color: #fff; font-size: 3rem; box-shadow: 0 14px 26px -10px rgba(225, 80, 122, .7); }
+  .face.front small { display: block; font-size: 1.5rem; margin-top: -.3rem; opacity: .9; font-weight: 600; }
+  .face.back { transform: rotateY(180deg); background: linear-gradient(145deg, #fffaf0, #ffeab8); border: 2px solid var(--gold-soft); font-size: 1.35rem; line-height: 1.12; font-weight: 600; color: var(--plum); box-shadow: 0 14px 26px -12px rgba(200, 140, 30, .6); }
+
+  /* ---------- 5. Мудрые слова ---------- */
+  .quotes { display: grid; gap: 1.1rem; width: min(100%, 27rem); }
+  .quote { margin: 0; padding: .9rem 1.2rem; border-left: 5px solid var(--gold); border-radius: 4px 18px 18px 4px; background: rgba(255, 255, 255, .72); font-size: clamp(1.5rem, 6vw, 1.8rem); line-height: 1.25; font-weight: 600; box-shadow: 0 10px 24px -14px rgba(160, 100, 20, .5); }
+
+  /* ---------- 6. Торт ---------- */
+  .cake { display: grid; justify-items: center; width: min(78vw, 17rem); margin-top: 1.4rem; }
+  .candles { display: flex; justify-content: center; gap: .25rem; width: 70%; margin-bottom: -2px; position: relative; z-index: 2; }
+  .candle { position: relative; width: 2.2rem; height: 4.6rem; padding: 0; border: 0; background: none; cursor: pointer; }
+  .candle .stick { position: absolute; left: 50%; bottom: 0; width: .8rem; height: 2.7rem; transform: translateX(-50%); border-radius: 3px; background: repeating-linear-gradient(135deg, #fff 0 .45rem, #ff8fb0 .45rem .9rem); }
+  .candle .flame { position: absolute; left: 50%; bottom: 2.6rem; width: .95rem; height: 1.5rem; margin-left: -.475rem; border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%; background: radial-gradient(circle at 50% 70%, #fff8c0 0 25%, #ffb83c 60%, #ff7a1a); box-shadow: 0 0 16px 4px rgba(255, 180, 60, .65); transform-origin: 50% 100%; animation: flicker .5s ease-in-out infinite alternate; transition: opacity .35s ease, transform .35s ease; }
+  @keyframes flicker { from { transform: scale(1, 1) rotate(-3deg); } to { transform: scale(.92, 1.08) rotate(3deg); } }
+  .candle.out .flame { opacity: 0; transform: scale(0); animation: none; }
+  .candle.out::after { content: ""; position: absolute; left: 50%; bottom: 2.7rem; width: .5rem; height: .5rem; margin-left: -.25rem; border-radius: 50%; background: rgba(120, 100, 110, .45); animation: smoke 1.4s ease-out forwards; }
+  @keyframes smoke { to { transform: translateY(-2.6rem) scale(3); opacity: 0; } }
+  .tier { position: relative; border-radius: 12px; }
+  .tier::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 16px; border-radius: 12px 12px 0 0; background: radial-gradient(circle at 10px 0, #fff6e8 9px, transparent 10px) repeat-x top left / 20px 16px; }
+  .t2 { width: 70%; height: 3.3rem; background: linear-gradient(180deg, #ffb0c6, #f0749a); }
+  .t1 { width: 100%; height: 4.6rem; background: linear-gradient(180deg, #ffd88a, #f0ac3c); }
+  .plate { width: 118%; height: 1rem; border-radius: 999px; background: linear-gradient(180deg, #fff, #e8d9c2); box-shadow: 0 14px 20px -8px rgba(120, 70, 20, .4); }
+  .wishline { min-height: 2.6rem; margin: 0; font-size: 2rem; font-weight: 600; text-align: center; color: var(--rose-deep); }
+
+  /* ---------- 7. Фонарики ---------- */
+  .lanterns { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.1rem 1.4rem; width: min(100%, 26rem); min-height: 7.5rem; }
+  .lan { position: relative; width: 4rem; height: 5.2rem; padding: 0; border: 0; cursor: pointer; border-radius: 38% 38% 26% 26% / 30% 30% 18% 18%; background: linear-gradient(180deg, #ffe08a 0%, #ffab40 55%, #e96a2a 100%); box-shadow: 0 0 30px 6px rgba(255, 170, 60, .7), inset 0 -8px 14px rgba(200, 70, 20, .35); animation: sway 3.6s ease-in-out infinite; }
+  .lan:nth-child(2n) { animation-delay: -1.2s; margin-top: 1rem; }
+  .lan:nth-child(3n) { animation-delay: -2.2s; }
+  .lan::before { content: ""; position: absolute; left: 12%; right: 12%; top: -.35rem; height: .7rem; border-radius: 6px; background: #8a3c1c; }
+  .lan::after { content: ""; position: absolute; left: 22%; right: 22%; bottom: -.35rem; height: .5rem; border-radius: 6px; background: #8a3c1c; }
+  @keyframes sway { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-8px) rotate(3deg); } }
+  .lan.fly { animation: fly 5.5s ease-in forwards; pointer-events: none; }
+  @keyframes fly { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-85vh) scale(.35); opacity: 0; } }
+  .wishes { display: grid; gap: .35rem; justify-items: center; min-height: 3rem; }
+  .wish { font-size: clamp(1.5rem, 6vw, 1.85rem); color: #ffe3a8; text-align: center; font-weight: 600; text-shadow: 0 0 12px rgba(255, 170, 60, .5); }
+  .finale { text-align: center; display: grid; gap: .6rem; justify-items: center; margin-top: .6rem; }
+  .finale .title { font-size: clamp(2.3rem, 10vw, 3.4rem); }
+
+  /* ---------- Конфетти, шарики, сердечки ---------- */
+  .conf { position: fixed; top: -4vh; left: var(--l); z-index: 60; pointer-events: none; width: var(--w); height: calc(var(--w) * 1.7); background: var(--c); border-radius: 2px; animation: confall var(--d) linear var(--dl) forwards; }
+  @keyframes confall { to { transform: translate3d(var(--x), 112vh, 0) rotate(var(--r)); } }
+  .balloon { position: fixed; bottom: -22vh; left: var(--l); z-index: 58; pointer-events: none; width: var(--w); height: calc(var(--w) * 1.22); border-radius: 50% 50% 48% 48% / 46% 46% 54% 54%; background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, .75) 0 10%, transparent 12%), var(--c); animation: balloon var(--d) ease-in var(--dl) forwards; }
+  .balloon::after { content: ""; position: absolute; left: 50%; top: 100%; width: 1px; height: 3.6rem; background: rgba(90, 40, 70, .35); }
+  @keyframes balloon { to { transform: translate3d(var(--x), -140vh, 0); } }
+  .heart { position: fixed; bottom: -8vh; left: var(--l); z-index: 60; pointer-events: none; font-size: var(--s); line-height: 1; opacity: 0; animation: rise var(--d) ease-out var(--dl) forwards; }
+  @keyframes rise { 0% { opacity: 0; transform: translate3d(0, 0, 0) scale(.6); } 12% { opacity: 1; } 100% { opacity: 0; transform: translate3d(var(--x), -118vh, 0) scale(1.25); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bg-p { animation: none; bottom: auto; top: var(--t); }
+    .gift, .next.show, .next .go, .next::after, .lan, .candle .flame, .star { animation: none; }
+    .w { animation: none; opacity: 1; }
+    .scene.enter, .scene.leave { animation: none; }
+    .lan.fly { animation: none; opacity: 0; }
+    .next, .progress span, .frame .slide, .flip .inner, #sky { transition: none; }
+  }
+</style>
+</head>
+<body>
+<div id="bg" aria-hidden="true"></div>
+<div id="sky" aria-hidden="true"></div>
+<div class="progress" id="progress" aria-hidden="true"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+
+<main>
+  <!-- 1. Подарочная коробка -->
+  <section class="scene" id="s0" hidden>
+    <h1 class="title" id="t0"></h1>
+    <button class="gift" id="gift" type="button" aria-label="Қутини очиш">
+      <span class="g-glow"></span>
+      <span class="g-box"></span>
+      <span class="g-lid"></span>
+      <span class="g-bow" aria-hidden="true">🎀</span>
+    </button>
+    <p class="sub" id="giftHint">Қутини очиш учун босинг</p>
+    <div class="actions"></div>
+  </section>
+
+  <!-- 2. Письмо -->
+  <section class="scene" id="s1" hidden>
+    <div class="card">
+      <div id="letter"></div>
+      <p class="sign" id="sign"></p>
+      <div class="actions"></div>
+    </div>
+  </section>
+
+  <!-- 3. Наши моменты -->
+  <section class="scene" id="s2" hidden>
+    <h2 class="title" id="t2"></h2>
+    <figure class="polaroid" style="margin:0 auto">
+      <div class="frame" id="frame"></div>
+      <figcaption class="cap" id="cap"></figcaption>
+    </figure>
+    <div class="gnav">
+      <button class="arrow" id="prev" type="button" aria-label="Олдинги сурат">‹</button>
+      <div class="dots" id="dots"></div>
+      <button class="arrow" id="nextPhoto" type="button" aria-label="Кейинги сурат">›</button>
+    </div>
+    <div class="actions"></div>
+  </section>
+
+  <!-- 4. Карточки -->
+  <section class="scene" id="s3" hidden>
+    <h2 class="title" id="t3"></h2>
+    <p class="sub" id="flipHint">Карточкаларни босинг</p>
+    <div class="flips" id="flips"></div>
+    <div class="actions"></div>
+  </section>
+
+  <!-- 5. Мудрые слова -->
+  <section class="scene" id="s4" hidden>
+    <h2 class="title" id="t4"></h2>
+    <div class="quotes" id="quotes"></div>
+    <div class="actions"></div>
+  </section>
+
+  <!-- 6. Торт -->
+  <section class="scene" id="s5" hidden>
+    <h2 class="title" id="t5"></h2>
+    <div class="cake">
+      <div class="candles" id="candles"></div>
+      <div class="tier t2"></div>
+      <div class="tier t1"></div>
+      <div class="plate"></div>
+    </div>
+    <p class="wishline" id="wishline">Шамларни босиб ўчиринг</p>
+    <div class="actions"></div>
+  </section>
+
+  <!-- 7. Фонарики -->
+  <section class="scene" id="s6" hidden>
+    <h2 class="title" id="t6"></h2>
+    <p class="sub" id="lanHint">Фонусни босинг, у осмонга учиб кетади</p>
+    <div class="lanterns" id="lanterns"></div>
+    <div class="wishes" id="wishes"></div>
+    <div class="finale" id="finale" hidden>
+      <h2 class="title" id="finalTitle"></h2>
+      <p class="sub" id="finalSub"></p>
+    </div>
+  </section>
+</main>
+
+<script>
+/* =====================================================
+   ЗДЕСЬ МЕНЯЕШЬ ТЕКСТ И ФОТО. Остальной код трогать не нужно.
+   ===================================================== */
+const CONFIG = {
+  name: "Онажон",          // как обращаешься к маме (можно написать её имя)
+  from: "Фарзандингиз",    // подпись внизу письма
+
+  nextLabel: "Кейинги",
+  openLabel: "Давом этиш",
+
+  /* Страница 1 */
+  boxTitle: "бу сизга!",                       // после имени: «Онажон, бу сизга!»
+  boxOpenedTitle: "Туғилган кунингиз муборак!",
+
+  /* Страница 2: письмо */
+  letter: [
+    "Сиз менинг ҳаётимдаги энг азиз инсонсиз. Ҳар бир қадамимда ёнимда бўлганингиз ва ҳамиша дуо қилганингиз учун сизга чексиз миннатдорман.",
+    "Бугун сизга оддий сўзлардан кўпроқ нарса айтгим келди. Шунинг учун шу кичкина сайтни тайёрладим.",
+    "Сиз борлигингиз учун мен бахтлиман. Бу сайт юрагимдан чиққан кичик совғадир."
+  ],
+
+  /* Страница 3: фото. Загрузи фото в репозиторий и впиши точные имена
+     (латиницей, строчными, например mama1.jpg). Если файла нет, слайд
+     остаётся красивой рамкой. Можно добавлять новые строки. */
+  photosTitle: "Бизнинг лаҳзаларимиз",
+  photos: [
+    { src: "mama1.jpg", caption: "Биргаликдаги бахтли дамлар" },
+    { src: "mama2.jpg", caption: "Сиз билан ҳар лаҳза қадрли" },
+    { src: "mama3.jpg", caption: "Кулгингиз дунёни ёритади" },
+    { src: "mama4.jpg", caption: "Доим ёнимда бўлганингиз учун раҳмат" }
+  ],
+
+  /* Страница 4: карточки */
+  reasonsTitle: "Сизни нега яхши кўраман",
+  reasons: [
+    "Чунки Сиз мени ҳар доим тушунасиз",
+    "Чунки Сизнинг дуоларингиз доим мен билан",
+    "Чунки Сизнинг қўлингизда пишган таомдан мазалиси йўқ",
+    "Чунки қийин кунларда ҳам мени қўллаб-қувватладингиз",
+    "Чунки кулгингиз бутун уйимизни ёритади",
+    "Чунки Сиз ҳеч қачон умидни йўқотмайсиз",
+    "Чунки ҳамма нарсани юракдан қиласиз",
+    "Чунки Сиз менинг онамсиз"
+  ],
+
+  /* Страница 5: мудрые слова */
+  lessonsTitle: "Сиз мени шунга ўргатдингиз",
+  lessons: [
+    "Меҳр — энг катта бойлик.",
+    "Қийинчиликдан қўрқма, у сени кучли қилади.",
+    "Яхшилик ҳеч қачон йўқолмайди.",
+    "Оила — энг ишончли таянч.",
+    "Ҳар кунга шукр қил, ҳар кунга кулиб боқ."
+  ],
+
+  /* Страница 6: торт */
+  cakeTitle: "Шам ўчиринг ва тилак тиланг",
+  candleCount: 5,
+  cakeDone: "Тилагингиз албатта ушалади!",
+
+  /* Страница 7: фонарики */
+  lanternsTitle: "Орзу фонуслари",
+  wishes: [
+    "Доим соғ-омон бўлинг",
+    "Хонадонингизда тинчлик ва барака бўлсин",
+    "Ҳар куни қувончга тўлсин",
+    "Орзуларингиз ушалсин",
+    "Умрингиз узоқ, бахтингиз бардавом бўлсин"
+  ],
+  finalTitle: "Сизни жуда яхши кўраман!",
+  finalSub: "Туғилган кунингиз муборак, Онажон ❤"
+};
+
+/* ---------------- код ---------------- */
+const $ = (id) => document.getElementById(id);
+const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const rnd = (a, b) => a + Math.random() * (b - a);
+const scenes = ["s0", "s1", "s2", "s3", "s4", "s5", "s6"].map($);
+let cur = -1, busy = false, timers = [];
+const later = (fn, ms) => timers.push(setTimeout(fn, ms));
+const clearLater = () => { timers.forEach(clearTimeout); timers = []; };
+
+/* Фон: звёздочки и сердечки */
+(function () {
+  const colors = ["#f6c453", "#ff9fbd", "#f27ba0", "#ffd88a", "#ffb08a"];
+  const glyphs = ["★", "♥", "✦"];
+  for (let i = 0; i < 26; i++) {
+    const h = document.createElement("span");
+    h.className = "bg-p";
+    h.textContent = glyphs[i % 3];
+    const d = rnd(16, 32);
+    h.style.setProperty("--l", rnd(0, 97) + "vw");
+    h.style.setProperty("--t", rnd(3, 95) + "vh");
+    h.style.setProperty("--s", rnd(10, 24) + "px");
+    h.style.setProperty("--o", rnd(.3, .7).toFixed(2));
+    h.style.setProperty("--c", colors[i % colors.length]);
+    h.style.setProperty("--d", d + "s");
+    h.style.setProperty("--dl", -rnd(0, d) + "s");
+    h.style.setProperty("--x", rnd(-7, 7) + "vw");
+    $("bg").appendChild(h);
+  }
+  for (let i = 0; i < 70; i++) {
+    const s = document.createElement("span");
+    s.className = "star";
+    s.style.left = rnd(0, 100) + "%";
+    s.style.top = rnd(0, 100) + "%";
+    s.style.setProperty("--s", rnd(1, 3) + "px");
+    s.style.setProperty("--o", rnd(.4, 1).toFixed(2));
+    s.style.setProperty("--d", rnd(2, 5) + "s");
+    s.style.setProperty("--dl", -rnd(0, 5) + "s");
+    $("sky").appendChild(s);
+  }
+})();
+
+/* Текст «пишется» слово за словом */
+function writeInto(el, text, delay) {
+  el.textContent = "";
+  const words = text.split(" ");
+  words.forEach((w, i) => {
+    const s = document.createElement("span");
+    s.className = "w";
+    s.textContent = w;
+    s.style.animationDelay = delay + "s";
+    delay += reduce ? 0 : 0.12;
+    el.appendChild(s);
+    if (i < words.length - 1) el.appendChild(document.createTextNode(" "));
+  });
+  return delay;
+}
+function showNext(scene, ms) {
+  later(() => { const b = scene.querySelector(".next"); if (b) b.classList.add("show"); }, reduce ? 0 : ms);
+}
+
+/* Эффекты */
+function confetti(n) {
+  if (reduce) return;
+  const colors = ["#f6c453", "#e1507a", "#7bd3c6", "#b59cf0", "#ff9a5a", "#ffffff"];
+  for (let i = 0; i < n; i++) {
+    const c = document.createElement("span");
+    c.className = "conf";
+    const d = rnd(3, 6);
+    c.style.setProperty("--l", rnd(0, 100) + "vw");
+    c.style.setProperty("--w", rnd(6, 11) + "px");
+    c.style.setProperty("--c", colors[i % colors.length]);
+    c.style.setProperty("--d", d + "s");
+    c.style.setProperty("--dl", rnd(0, 1.2) + "s");
+    c.style.setProperty("--x", rnd(-15, 15) + "vw");
+    c.style.setProperty("--r", rnd(360, 1080) + "deg");
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), (d + 2.5) * 1000);
+  }
+}
+function balloons(n) {
+  if (reduce) return;
+  const colors = ["#ff7aa2", "#ffcf4a", "#7bd3c6", "#b59cf0", "#ff9a5a", "#f0668c"];
+  for (let i = 0; i < n; i++) {
+    const b = document.createElement("span");
+    b.className = "balloon";
+    const d = rnd(6, 10);
+    b.style.setProperty("--l", rnd(2, 92) + "vw");
+    b.style.setProperty("--w", rnd(34, 56) + "px");
+    b.style.setProperty("--c", colors[i % colors.length]);
+    b.style.setProperty("--d", d + "s");
+    b.style.setProperty("--dl", rnd(0, 1.6) + "s");
+    b.style.setProperty("--x", rnd(-8, 8) + "vw");
+    document.body.appendChild(b);
+    setTimeout(() => b.remove(), (d + 3) * 1000);
+  }
+}
+function hearts(n) {
+  if (reduce) return;
+  const glyphs = ["❤️", "💖", "💗", "💕", "💛"];
+  for (let i = 0; i < n; i++) {
+    const h = document.createElement("span");
+    h.className = "heart";
+    h.textContent = glyphs[i % glyphs.length];
+    const d = rnd(3.5, 6.5);
+    h.style.setProperty("--l", rnd(0, 96) + "vw");
+    h.style.setProperty("--s", rnd(18, 44) + "px");
+    h.style.setProperty("--d", d + "s");
+    h.style.setProperty("--dl", rnd(0, 1.8) + "s");
+    h.style.setProperty("--x", rnd(-12, 12) + "vw");
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), (d + 3) * 1000);
+  }
+}
+
+/* Подписи и кнопки «Кейинги» */
+$("t2").textContent = CONFIG.photosTitle;
+$("t3").textContent = CONFIG.reasonsTitle;
+$("t4").textContent = CONFIG.lessonsTitle;
+$("t5").textContent = CONFIG.cakeTitle;
+$("t6").textContent = CONFIG.lanternsTitle;
+document.querySelectorAll(".actions").forEach((a) => {
+  const b = document.createElement("button");
+  b.type = "button";
+  b.className = "next";
+  b.innerHTML = '<span class="lbl"></span><span class="go" aria-hidden="true">★</span>';
+  b.querySelector(".lbl").textContent = a.closest("#s0") ? CONFIG.openLabel : CONFIG.nextLabel;
+  b.addEventListener("click", () => { if (!busy) go(cur + 1); });
+  a.appendChild(b);
+});
+
+/* ---- Слайдшоу ---- */
+let slides = [], idx = 0, timer = null;
+function show(i) {
+  const n = slides.length;
+  if (!n) return;
+  idx = (i + n) % n;
+  [...$("frame").children].forEach((el, k) => el.classList.toggle("on", k === idx));
+  [...$("dots").children].forEach((d, k) => d.classList.toggle("on", k === idx));
+  $("cap").textContent = slides[idx].caption || "";
+}
+function restart() {
+  clearInterval(timer);
+  if (!reduce && slides.length > 1) timer = setInterval(() => show(idx + 1), 4500);
+}
+(async function initGallery() {
+  const list = CONFIG.photos || [];
+  const ok = await Promise.all(list.map((p) => new Promise((res) => {
+    const im = new Image();
+    im.onload = () => res(true);
+    im.onerror = () => res(false);
+    im.src = p.src;
+  })));
+  const loaded = list.filter((_, i) => ok[i]);
+  slides = loaded.length ? loaded : list.slice(0, 3).map((p) => ({ caption: p.caption, ph: true }));
+  slides.forEach((p, i) => {
+    let el;
+    if (p.ph) { el = document.createElement("div"); el.innerHTML = '<span class="ph" aria-hidden="true">♥</span>'; }
+    else { el = document.createElement("img"); el.src = p.src; el.alt = p.caption || "Сурат " + (i + 1); }
+    el.className = "slide";
+    $("frame").appendChild(el);
+    const d = document.createElement("button");
+    d.type = "button";
+    d.className = "dot";
+    d.setAttribute("aria-label", "Сурат " + (i + 1));
+    d.addEventListener("click", () => { show(i); restart(); });
+    $("dots").appendChild(d);
+  });
+  const single = slides.length < 2;
+  $("prev").hidden = single; $("nextPhoto").hidden = single; $("dots").hidden = single;
+  $("prev").addEventListener("click", () => { show(idx - 1); restart(); });
+  $("nextPhoto").addEventListener("click", () => { show(idx + 1); restart(); });
+  let sx = null;
+  const fr = $("frame");
+  fr.addEventListener("pointerdown", (e) => { sx = e.clientX; });
+  fr.addEventListener("pointerup", (e) => {
+    if (sx === null) return;
+    const dx = e.clientX - sx; sx = null;
+    if (Math.abs(dx) > 40) { show(dx < 0 ? idx + 1 : idx - 1); restart(); }
+  });
+  fr.addEventListener("pointercancel", () => { sx = null; });
+  show(0);
+})();
+
+/* ---- Карточки-причины ---- */
+const flipped = new Set();
+CONFIG.reasons.forEach((text, i) => {
+  const b = document.createElement("button");
+  b.type = "button";
+  b.className = "flip";
+  b.setAttribute("aria-label", "Сабаб " + (i + 1));
+  b.innerHTML = '<span class="inner"><span class="face front">♥<small></small></span><span class="face back"></span></span>';
+  b.querySelector("small").textContent = i + 1;
+  b.querySelector(".back").textContent = text;
+  b.addEventListener("click", () => {
+    b.classList.toggle("on");
+    flipped.add(i);
+    $("flipHint").style.opacity = "0";
+    if (flipped.size === CONFIG.reasons.length) showNext($("s3"), 900);
+  });
+  $("flips").appendChild(b);
+});
+
+/* ---- Свечи ---- */
+let lit = CONFIG.candleCount;
+for (let i = 0; i < CONFIG.candleCount; i++) {
+  const c = document.createElement("button");
+  c.type = "button";
+  c.className = "candle";
+  c.setAttribute("aria-label", "Шамни ўчириш");
+  c.innerHTML = '<span class="flame"></span><span class="stick"></span>';
+  c.addEventListener("click", () => {
+    if (c.classList.contains("out")) return;
+    c.classList.add("out");
+    lit--;
+    if (lit === 0) {
+      $("wishline").textContent = CONFIG.cakeDone;
+      confetti(100);
+      balloons(10);
+      showNext($("s5"), 2000);
+    } else {
+      $("wishline").textContent = "Яна " + lit + " та шам қолди";
+    }
+  });
+  $("candles").appendChild(c);
+}
+
+/* ---- Фонарики ---- */
+let launched = 0;
+CONFIG.wishes.forEach((wish) => {
+  const l = document.createElement("button");
+  l.type = "button";
+  l.className = "lan";
+  l.setAttribute("aria-label", "Фонус");
+  l.addEventListener("click", () => {
+    if (l.classList.contains("fly")) return;
+    l.classList.add("fly");
+    $("lanHint").style.opacity = "0";
+    const p = document.createElement("p");
+    p.className = "wish";
+    p.style.margin = "0";
+    $("wishes").appendChild(p);
+    writeInto(p, wish, 0.3);
+    launched++;
+    if (launched === CONFIG.wishes.length) {
+      later(() => {
+        $("finale").hidden = false;
+        writeInto($("finalTitle"), CONFIG.finalTitle, 0.2);
+        writeInto($("finalSub"), CONFIG.finalSub, 1.4);
+        hearts(110);
+        confetti(90);
+        balloons(8);
+        later(() => hearts(70), 2200);
+      }, reduce ? 0 : 1800);
+    }
+  });
+  $("lanterns").appendChild(l);
+});
+
+/* ---- Появление страниц ---- */
+const enter = [
+  function (s) {
+    $("gift").classList.remove("open");
+    writeInto($("t0"), CONFIG.name + ", " + CONFIG.boxTitle, 0.2);
+  },
+  function (s) {
+    const box = $("letter");
+    box.innerHTML = "";
+    let d = 0.3;
+    ["Азиз " + CONFIG.name + ",", ...CONFIG.letter].forEach((text, i) => {
+      const p = document.createElement("p");
+      p.className = "t" + (i === 0 ? " hello" : "");
+      box.appendChild(p);
+      d = writeInto(p, text, d) + 0.3;
+    });
+    const sign = $("sign");
+    sign.textContent = "";
+    if (CONFIG.from) { writeInto(sign, CONFIG.from + " ❤", d); d += 0.8; }
+    showNext(s, d * 1000);
+  },
+  function (s) { show(0); restart(); showNext(s, 3500); },
+  function (s) { showNext(s, 25000); },
+  function (s) {
+    const box = $("quotes");
+    box.innerHTML = "";
+    let d = 0.5;
+    CONFIG.lessons.forEach((text) => {
+      const q = document.createElement("p");
+      q.className = "quote w";
+      q.style.animationDelay = d + "s";
+      q.textContent = text;
+      box.appendChild(q);
+      d += reduce ? 0 : 1.1;
+    });
+    showNext(s, (d + 0.8) * 1000);
+  },
+  function (s) { showNext(s, 60000); },
+  function () { document.body.classList.add("night"); }
+];
+
+function updateProgress() {
+  [...$("progress").children].forEach((h, i) => h.classList.toggle("on", i === cur));
+}
+function go(n) {
+  if (n >= scenes.length) return;
+  busy = true;
+  clearLater();
+  clearInterval(timer);
+  const prev = cur >= 0 ? scenes[cur] : null;
+  cur = n;
+  const wait = prev && !reduce ? 450 : 0;
+  if (prev) {
+    prev.classList.remove("enter");
+    prev.classList.add("leave");
+    setTimeout(() => { prev.hidden = true; prev.classList.remove("leave"); }, wait);
+  }
+  setTimeout(() => {
+    const s = scenes[n];
+    s.hidden = false;
+    s.classList.add("enter");
+    window.scrollTo(0, 0);
+    updateProgress();
+    enter[n](s);
+    busy = false;
+  }, wait);
+}
+
+/* Открываем подарок */
+$("gift").addEventListener("click", () => {
+  const g = $("gift");
+  if (g.classList.contains("open")) return;
+  g.classList.add("open");
+  $("giftHint").style.opacity = "0";
+  confetti(110);
+  balloons(12);
+  hearts(18);
+  later(() => writeInto($("t0"), CONFIG.boxOpenedTitle, 0.1), reduce ? 0 : 700);
+  showNext($("s0"), 2200);
+});
+
+go(0);
+</script>
+</body>
+</html>
